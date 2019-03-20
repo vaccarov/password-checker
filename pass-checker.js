@@ -1,18 +1,25 @@
 var sha1 = require('sha1');
 var request = require('request');
-const crypted = sha1(process.argv[2]).toUpperCase();
+const pass = process.argv[2];
 
-request(`https://api.pwnedpasswords.com/range/${crypted.substring(0,5)}`,
-  (err, res, body) => { isPasswordUsed(body.split(/\r\n/)); });
+if (pass) {
+  const hashedPassword = sha1(pass).toUpperCase();
+  request(`https://api.pwnedpasswords.com/range/${hashedPassword.substring(0,5)}`,
+      (err, res, body) => isPasswordUsed(hashedPassword, body.split(/\r\n/)));
+} else {
+  console.log('Please add a parameter ex: node pass-checker.js passwordToCheck');
+}
 
-function isPasswordUsed(list) {
+function isPasswordUsed(hashedPassword, listPasswords) {
   let numberFounded = 0;
-  for (var i = 0; i < list.length; i++) {
-    const line = list[i].split(/:/);
-    if (line[0] === crypted.substring(5)) {
+  for (var i = 0; i < listPasswords.length; i++) {
+    const line = listPasswords[i].split(/:/);
+    if (line[0] === hashedPassword.substring(5)) {
       numberFounded = line[1];
       break;
     }
   }
-  console.log('Password used ' + numberFounded + ' times');
+
+  const textColor = `\x1b[3${numberFounded ? 1 : 2}m%s\x1b[0m`;
+  console.log(textColor, `Password used ${numberFounded} times`);
 }
