@@ -1,0 +1,23 @@
+{
+  "name": "password-checker",
+  "version": "1.0.0",
+  "description": "Check if your password has been leaked",
+  "main": "pass-checker.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vaccarov/password-checker.git"
+  },
+  "author": "Victor VACCARO",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vaccarov/password-checker/issues"
+  },
+  "homepage": "https://github.com/vaccarov/password-checker#readme",
+  "dependencies": {
+    "request": "^2.88.2",
+    "sha1": "^1.1.1"
+  }
+}
